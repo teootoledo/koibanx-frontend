@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Stack,
@@ -13,6 +13,32 @@ import {
 } from "@chakra-ui/react";
 
 const SearchBar = ({ handleSearch }) => {
+  const [filters, setFilters] = useState({
+    fields: ["id", "cuit", "commerce"],
+    active: "all",
+  });
+
+  const setTextFilters = (selecteds) => {
+    setFilters({
+      ...filters,
+      fields: selecteds,
+    });
+    console.log(selecteds);
+  };
+
+  const setActiveFilter = (selected) => {
+    setFilters({
+      ...filters,
+      active: selected,
+    });
+    console.log(selected);
+  };
+
+  // UseEffect cuando cambia filters
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
+
   return (
     <HStack
       spacing={10}
@@ -25,6 +51,7 @@ const SearchBar = ({ handleSearch }) => {
         <CheckboxGroup
           colorScheme="purple"
           defaultValue={["id", "commerce", "cuit"]}
+          onChange={setTextFilters}
         >
           <Stack spacing={[1, 5]} direction={["column", "row"]}>
             <Checkbox value="id">ID</Checkbox>
@@ -35,12 +62,15 @@ const SearchBar = ({ handleSearch }) => {
       </VStack>
       <VStack align>
         <Text color={"#565656"}>Otros filtros</Text>
-        <RadioGroup colorScheme="purple">
-          {/* <RadioGroup onChange={setValue} value={value} colorScheme="purple"> */}
+        <RadioGroup
+          colorScheme="purple"
+          onChange={setActiveFilter}
+          value={filters.active}
+        >
           <Stack direction="row" spacing={5}>
-            <Radio value={true}>Activos</Radio>
-            <Radio value={false}>Inactivos</Radio>
-            <Radio value={null}>Todos</Radio>
+            <Radio value="active">Activos</Radio>
+            <Radio value="inactive">Inactivos</Radio>
+            <Radio value="all">Todos</Radio>
           </Stack>
         </RadioGroup>
       </VStack>
