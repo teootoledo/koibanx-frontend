@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { VStack, Heading } from "@chakra-ui/react";
+import SearchBar from "./components/SearchBar";
 import "./App.css";
 
-import { fetchData } from "./services/fetchData";
+import fetchData from "./services/fetchData";
 
 // Filters
 /*
@@ -28,7 +30,12 @@ function App() {
     setTableContent(response);
   };
 
-  return <div className="App">Challenge Koibanx</div>;
+  return (
+    <VStack>
+      <Heading>Koibanx frontend challenge</Heading>
+      <SearchBar handleSearch={handleSearch} />
+    </VStack>
+  );
 }
 
 export default App;
