@@ -1,0 +1,15 @@
+.table {
+  padding-top: 30px;
+}
+
+.table-headers {
+  padding: 10px;
+}
+
+.sortable {
+  cursor: pointer;
+}
+
+.sortable:hover {
+  transform: scale(1.1);
+}
