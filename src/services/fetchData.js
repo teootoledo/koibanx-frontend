@@ -1,4 +1,7 @@
 const fetchData = async ({ filters }) => {
+  // ejemplo paginacion
+  // /rest/users?q={}&max=5&skip=10
+
   console.log("fetchData");
 
   // Mapeo de los filtros para armar la query

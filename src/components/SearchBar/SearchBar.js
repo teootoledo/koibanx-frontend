@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import {
   Stack,
@@ -11,46 +11,29 @@ import {
   RadioGroup,
   Text,
 } from "@chakra-ui/react";
-import debounce from "../../utils/debounce";
+import { TableContext } from "../../context/TableContext";
 
 const SearchBar = ({ handleSearch }) => {
-  const [filters, setFilters] = useState({
-    fields: ["id", "cuit", "commerce"],
-    active: "all",
-  });
-
-  const optimizedSearch = useCallback(
-    debounce((filters) => handleSearch({ filters })),
-    []
-  );
+  const { setFiltersValue: setFilters, getFilters: filters } =
+    useContext(TableContext);
 
   const setInputFilter = (e) => {
     setFilters({
-      ...filters,
       input: e.target.value,
     });
-    optimizedSearch();
   };
 
   const setTextFilters = (selecteds) => {
     setFilters({
-      ...filters,
       fields: selecteds,
     });
   };
 
   const setActiveFilter = (selected) => {
     setFilters({
-      ...filters,
       active: selected,
     });
   };
-
-  // UseEffect cuando cambia filters
-  useEffect(() => {
-    console.log(filters);
-    optimizedSearch(filters);
-  }, [filters]);
 
   return (
     <HStack
