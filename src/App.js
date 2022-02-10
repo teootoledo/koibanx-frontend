@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { VStack, Heading } from "@chakra-ui/react";
+import { VStack, Heading, Spacer } from "@chakra-ui/react";
 import SearchBar from "./components/SearchBar";
+import Table from "./components/Table";
 import "./App.css";
 
 import fetchData from "./services/fetchData";
@@ -34,6 +35,7 @@ function App() {
     <VStack>
       <Heading>Koibanx frontend challenge</Heading>
       <SearchBar handleSearch={handleSearch} />
+      <Table handleSearch={handleSearch} />
     </VStack>
   );
 }
