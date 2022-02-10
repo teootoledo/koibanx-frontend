@@ -1,4 +1,6 @@
 const fetchData = async ({ filters }) => {
+  console.log("fetchData");
+
   // Mapeo de los filtros para armar la query
   const selectedFilters = filters.fields.map(
     (field) => `{${field}: "${filters.input}"}`

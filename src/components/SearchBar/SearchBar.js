@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import {
   Stack,
@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Text,
 } from "@chakra-ui/react";
+import debounce from "../../utils/debounce";
 
 const SearchBar = ({ handleSearch }) => {
   const [filters, setFilters] = useState({
@@ -18,12 +19,24 @@ const SearchBar = ({ handleSearch }) => {
     active: "all",
   });
 
+  const optimizedSearch = useCallback(
+    debounce((filters) => handleSearch({ filters })),
+    []
+  );
+
+  const setInputFilter = (e) => {
+    setFilters({
+      ...filters,
+      input: e.target.value,
+    });
+    optimizedSearch();
+  };
+
   const setTextFilters = (selecteds) => {
     setFilters({
       ...filters,
       fields: selecteds,
     });
-    console.log(selecteds);
   };
 
   const setActiveFilter = (selected) => {
@@ -31,12 +44,12 @@ const SearchBar = ({ handleSearch }) => {
       ...filters,
       active: selected,
     });
-    console.log(selected);
   };
 
   // UseEffect cuando cambia filters
   useEffect(() => {
     console.log(filters);
+    optimizedSearch(filters);
   }, [filters]);
 
   return (
@@ -47,7 +60,11 @@ const SearchBar = ({ handleSearch }) => {
       borderRadius={15}
     >
       <VStack spacing={2}>
-        <Input placeholder="Search" variant={"outlined"} />
+        <Input
+          placeholder="Search"
+          variant={"outlined"}
+          onChange={setInputFilter}
+        />
         <CheckboxGroup
           colorScheme="purple"
           defaultValue={["id", "commerce", "cuit"]}
