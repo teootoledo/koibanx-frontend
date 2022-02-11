@@ -1,5 +1,4 @@
 const debounce = (func) => {
-  console.log("debounce");
   let timer;
   return (...args) => {
     const context = this;
