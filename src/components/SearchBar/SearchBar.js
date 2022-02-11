@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { TableContext } from "../../context/TableContext";
 
-const SearchBar = ({ handleSearch }) => {
+const SearchBar = () => {
   const { setFiltersValue: setFilters, getFilters: filters } =
     useContext(TableContext);
 
@@ -66,6 +66,7 @@ const SearchBar = ({ handleSearch }) => {
           colorScheme="purple"
           onChange={setActiveFilter}
           value={filters.active}
+          defaultValue="all"
         >
           <Stack direction="row" spacing={5}>
             <Radio value="active">Activos</Radio>
@@ -79,7 +80,3 @@ const SearchBar = ({ handleSearch }) => {
 };
 
 export default SearchBar;
-
-SearchBar.propTypes = {
-  handleSearch: PropTypes.func.isRequired,
-};
