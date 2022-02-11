@@ -5,11 +5,11 @@ import { HStack, Select, Text, VStack } from "@chakra-ui/react";
 import "./Pagination.css";
 
 const Pagination = ({
-  totalPages,
   currentPage,
+  neighbourNumbers,
   onPageChange,
   onRowPerPageChange,
-  neighbourNumbers,
+  totalPages,
 }) => {
   // Oculto números de página si son demasiados
   const startPage = currentPage - neighbourNumbers;
@@ -60,7 +60,7 @@ const Pagination = ({
             }
             onClick={() => onPageChange(page)}
           >
-            <a>{page}</a>
+            {page}
           </li>
         ))}
         {!isLastPageVisible() && (

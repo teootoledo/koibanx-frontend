@@ -1,52 +1,36 @@
-import React, { useState, useContext } from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import {
-  Stack,
-  VStack,
+  Checkbox,
+  CheckboxGroup,
   HStack,
   Input,
-  CheckboxGroup,
-  Checkbox,
   Radio,
   RadioGroup,
+  Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
 import { TableContext } from "../../context/TableContext";
 
 const SearchBar = () => {
-  const { setFiltersValue: setFilters, getFilters: filters } =
-    useContext(TableContext);
+  const { setFiltersValue: setFilters, getFilters: filters } = useContext(TableContext);
 
-  const setInputFilter = (e) => {
-    setFilters({
-      input: e.target.value,
-    });
-  };
-
-  const setTextFilters = (selecteds) => {
-    setFilters({
-      fields: selecteds,
-    });
-  };
-
-  const setActiveFilter = (selected) => {
-    setFilters({
-      active: selected,
-    });
-  };
+  const setInputFilter = (e) => { setFilters({ input: e.target.value }); };
+  const setTextFilters = (selecteds) => { setFilters({ fields: selecteds }); };
+  const setActiveFilter = (selected) => { setFilters({ active: selected }); };
 
   return (
     <HStack
-      spacing={10}
       backgroundColor={"#f3f2ff"}
-      padding="5"
       borderRadius={15}
+      padding="5"
+      spacing={10}
     >
       <VStack spacing={2}>
         <Input
+          onChange={setInputFilter}
           placeholder="Search"
           variant={"outlined"}
-          onChange={setInputFilter}
         />
         <CheckboxGroup
           colorScheme="purple"
@@ -54,9 +38,9 @@ const SearchBar = () => {
           onChange={setTextFilters}
         >
           <Stack spacing={[1, 5]} direction={["column", "row"]}>
-            <Checkbox value="id">ID</Checkbox>
             <Checkbox value="commerce">Comercio</Checkbox>
             <Checkbox value="cuit">CUIT</Checkbox>
+            <Checkbox value="id">ID</Checkbox>
           </Stack>
         </CheckboxGroup>
       </VStack>
@@ -64,14 +48,14 @@ const SearchBar = () => {
         <Text color={"#565656"}>Otros filtros</Text>
         <RadioGroup
           colorScheme="purple"
+          defaultValue="all"
           onChange={setActiveFilter}
           value={filters.active}
-          defaultValue="all"
         >
           <Stack direction="row" spacing={5}>
             <Radio value="active">Activos</Radio>
-            <Radio value="inactive">Inactivos</Radio>
             <Radio value="all">Todos</Radio>
+            <Radio value="inactive">Inactivos</Radio>
           </Stack>
         </RadioGroup>
       </VStack>

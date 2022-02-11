@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { TableContext } from "../../context/TableContext";
 import "./Table.css";
@@ -7,15 +7,17 @@ const THeaders = ({ headers }) => {
   return (
     <thead>
       <tr>
-        {headers.map((header) =>
-          header.sortable ? (
+        {headers.map((header) => header.sortable ? (
             <HSortable
-              key={header.field}
-              id={header.field}
               header={header.label}
+              id={header.field}
+              key={header.field}
             />
           ) : (
-            <th id={header.field} key={header.field} className="table-headers">
+            <th 
+              className="table-headers"
+              id={header.field} 
+              key={header.field}>
               {header.label}
             </th>
           )
@@ -26,6 +28,16 @@ const THeaders = ({ headers }) => {
 };
 
 export default THeaders;
+
+THeaders.propTypes = {
+  headers: PropTypes.arrayOf(
+    PropTypes.shape({
+      field: PropTypes.string.isRequired,
+      label: PropTypes.string.isRequired,
+      sortable: PropTypes.bool.isRequired,
+    })
+  ),
+}
 
 const HSortable = ({ header, id }) => {
   const { setOrder, getOrder } = useContext(TableContext);
@@ -47,4 +59,9 @@ const HSortable = ({ header, id }) => {
       )}
     </th>
   );
+};
+
+HSortable.propTypes = {
+  header: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };

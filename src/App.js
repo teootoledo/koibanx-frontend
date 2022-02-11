@@ -6,7 +6,7 @@ import "./App.css";
 
 function App() {
   return (
-    <VStack>
+    <VStack className="principal-stack" spacing={10}>
       <Heading>Koibanx frontend challenge</Heading>
       <SearchBar />
       <Table />

@@ -1,14 +1,14 @@
 import React, { createContext, useState, useCallback, useEffect } from "react";
-import fetchData from "../services/fetchData";
 import debounce from "../utils/debounce";
+import fetchData from "../services/fetchData";
 
 export const TableContext = createContext();
 
 const TableProvider = ({ children }) => {
   const [filters, setFilters] = useState({
+    active: "all",
     fields: ["cuit", "id", "commerce"],
     input: "",
-    active: "all",
     order: { field: "commerce", direction: 1 },
   });
 
@@ -20,47 +20,27 @@ const TableProvider = ({ children }) => {
 
   const [tableContent, setTableContent] = useState([]);
 
+  const getContent = () => tableContent;
   const getFilters = () => filters;
-
-  const setFiltersValue = (value) => {
-    setFilters({ ...filters, ...value });
-  };
-
-  const setOrder = (order) => {
-    setFilters({ ...filters, order });
-  };
-
   const getOrder = () => filters.order;
-
   const getPagination = () => pagination;
 
-  const setPaginationValue = (value) => {
-    setPagination((prevState) => {
-      return { ...prevState, ...value };
-    });
-  };
-
-  const getContent = () => tableContent;
+  const setFiltersValue = (value) => { setFilters({ ...filters, ...value }); };
+  const setOrder = (order) => { setFilters({ ...filters, order }); };
+  const setPaginationValue = (value) => { setPagination((prevState) => { return { ...prevState, ...value }; });};
 
   const handleSearch = async (filters, pagination) => {
     let response;
-    try {
-      response = await fetchData(filters, pagination);
-    } catch (error) {
-      console.error(error);
-    }
+    try { response = await fetchData(filters, pagination); } 
+    catch (error) { console.error(error); }
+    
     setTableContent(response.data);
     setPaginationValue({ totalPages: response.pages });
   };
 
-  const optimizedSearch = useCallback(
-    debounce((filters, pagination) => handleSearch(filters, pagination)),
-    []
-  );
+  const optimizedSearch = useCallback( debounce((filters, pagination) => handleSearch(filters, pagination)), []);
 
-  useEffect(() => {
-    optimizedSearch(filters, pagination);
-  }, [filters, pagination.currentPage, pagination.rowsPerPage]);
+  useEffect(() => { optimizedSearch(filters, pagination); }, [filters, pagination.currentPage, pagination.rowsPerPage]);
 
   return (
     <TableContext.Provider
