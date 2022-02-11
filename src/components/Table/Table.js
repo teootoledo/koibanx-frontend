@@ -1,25 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useContext } from "react";
 import THeaders from "./THeaders";
 import TBody from "./TBody";
 import headers from "../../mock/headers";
+import Pagination from "../Pagination";
+import { TableContext } from "../../context/TableContext";
 
 import "./Table.css";
 
-const Table = ({ handleSort, tableContent }) => {
+const Table = () => {
+  const { getContent, setPaginationValue, getPagination } =
+    useContext(TableContext);
+
   return (
     <div className="table">
-      <table>
+      <table cellPadding={"10px"}>
         <THeaders headers={headers} />
-        <TBody rowsContent={tableContent} />
+        <TBody rowsContent={getContent()} />
       </table>
+      <Pagination
+        totalPages={getPagination().totalPages}
+        currentPage={getPagination().currentPage}
+        neighbourNumbers={1}
+        onPageChange={(page) => setPaginationValue({ currentPage: page })}
+        onRowPerPageChange={(rowsPerPage) =>
+          setPaginationValue({ rowsPerPage })
+        }
+      />
     </div>
   );
 };
 
 export default Table;
-
-Table.propTypes = {
-  handleSort: PropTypes.func.isRequired,
-  tableContent: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
