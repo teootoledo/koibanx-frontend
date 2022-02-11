@@ -1,4 +1,4 @@
-![Banner](./koibanx-banner.png)
+![Banner](./koibanx-frontend.png)
 
 ### Scripts 📄
 
